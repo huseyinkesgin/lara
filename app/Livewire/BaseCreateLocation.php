@@ -24,20 +24,17 @@ class BaseCreateLocation extends Component
     protected function baseRules()
     {
         return [
-            'city_id' => 'required',
-            'district_id' => 'required',
-            'neighbourhood_id' => 'required',
+            'city_id' => 'nullable',
+            'district_id' => 'nullable',
+            'neighbourhood_id' => 'nullable',
             'code' => ['required', 'string', 'min:4', 'max:30', ],
-            'description' => ['nullable', 'string', 'max:255'],
+             'description' => ['nullable', 'string', 'max:255'],
         ];
     }
 
     protected function baseMessages()
     {
         return [
-            'city_id.required' => 'Şehir alanı zorunludur.',
-            'district_id.required' => 'İlçe alanı zorunludur.',
-            'neighbourhood_id.required' => 'Mahalle alanı zorunludur.',
             'code.required' => 'Kod alanı zorunludur.',
             'code.min' => 'Kod alanı en az 4 karakter olmalıdır.',
             'code.max' => 'Kod alanı en fazla 30 karakter olmalıdır.',

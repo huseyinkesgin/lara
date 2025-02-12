@@ -3,6 +3,7 @@
 namespace App\Livewire\Location;
 
 use App\Models\City;
+use App\Enums\IsActive;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -13,7 +14,7 @@ class CityCreate extends Component
 
     public $code;
     public $name;
-    public $is_active = true;
+    public $is_active = 1;
     public $description;
 
     public function rules()

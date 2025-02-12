@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\IsActive;
 use App\Traits\GeneratesCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,6 +21,10 @@ class City extends Model
     protected $appends = [
         'formatted_created_at',
         'formatted_updated_at'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     // ----------------------- RELATIONS ---------------------------------------------- //
@@ -75,5 +80,5 @@ class City extends Model
         );
     }
 
-   
+
 }

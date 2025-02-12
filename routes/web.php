@@ -2,11 +2,13 @@
 
 
 use App\Livewire\Location\CityIndex;
-use App\Livewire\Location\DistrictIndex;
-use App\Livewire\Location\NeighbourhoodIndex;
+use App\Livewire\Portfolio\LandIndex;
+use Illuminate\Support\Facades\Route;
 use App\Livewire\Contact\CompanyIndex;
 use App\Livewire\Contact\CustomerIndex;
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Contact\PersonnelIndex;
+use App\Livewire\Location\DistrictIndex;
+use App\Livewire\Location\NeighbourhoodIndex;
 
 
 Route::get('/', function () {
@@ -28,3 +30,5 @@ Route::get('districts',DistrictIndex::class)->name('districts');
 Route::get('neighbourhoods',NeighbourhoodIndex::class)->name('neighbourhoods');
 Route::get('companies',CompanyIndex::class)->name('companies');
 Route::get('customers',CustomerIndex::class)->name('customers');
+Route::get('personnels',PersonnelIndex::class)->name('personnels');
+Route::get('lands',LandIndex::class)->name('lands');
