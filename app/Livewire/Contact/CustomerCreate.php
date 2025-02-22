@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Contact;
 
-use App\Models\Customer;
+use App\Models\Beos\Customer;
 use Livewire\Attributes\On;
-use App\Models\Company;
+use App\Models\Beos\Company;
 use App\Livewire\BaseCreateLocation;
 
 class CustomerCreate extends BaseCreateLocation
@@ -15,14 +15,13 @@ class CustomerCreate extends BaseCreateLocation
     public $company_id;
     public $customer_group;
     public $phone;
-    public $email;
-    public $address;
+    public $email;    public $address;
 
     public $companies = [];
 
     public function rules()
     {
-        return array_merge(parent::baseRules(), [
+        return  [
             'code' => ['unique:customers'],
             'name' => ['required', 'string', 'min:3', 'max:50', 'unique:customers'],
             'tc_no' => ['nullable', 'string', 'min:11', 'max:11', 'unique:customers'],
@@ -32,7 +31,7 @@ class CustomerCreate extends BaseCreateLocation
             'phone' => ['nullable', 'string', 'min:15', 'max:15', 'unique:customers'],
             'email' => ['nullable', 'string', 'min:10', 'max:75', 'unique:customers'],
             'address' => ['nullable', 'string', 'max:255'],
-        ]);
+        ];
     }
 
     public function messages()
@@ -74,7 +73,7 @@ class CustomerCreate extends BaseCreateLocation
 
     public function resetForm()
     {
-        $this->reset('code', 'name', 'tc_no', 'customer_type', 'company_id', 'customer_group', 'phone', 'email', 'city_id', 'district_id', 'neighbourhood_id', 'address', 'description');
+        $this->reset('code', 'name', 'tc_no', 'customer_type', 'company_id', 'customer_group', 'phone', 'email', 'city_id', 'district_id', 'neighborhood_id', 'address', 'description');
     }
 
     public function save()

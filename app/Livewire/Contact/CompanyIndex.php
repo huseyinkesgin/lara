@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Contact;
 
-use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Component;
+
 class CompanyIndex extends Component
 {
     #[Title('Firma Listesi')]

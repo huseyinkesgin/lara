@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Location;
 
-use App\Models\City;
+use App\Models\Beos\City;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -19,7 +19,7 @@ class CityEdit extends Component
      public function rules()
     {
     return [
-                'code' => "required|string|min:4|max:30|unique:cities,code,{$this->cityId}",
+        'code' => "required|string|min:4|max:30|unique:cities,code,{$this->cityId}",
         'name' => "required|string|min:3|max:30|unique:cities,name,{$this->cityId}",
         'is_active' => ['boolean'],
         'description' => ['nullable', 'string', 'max:255'],
@@ -74,25 +74,29 @@ class CityEdit extends Component
     public function save()
     {
         $validatedData = $this->validate();
-           try {
 
+        try {
+            $city = City::findOrFail($this->cityId);
+            $city->update($validatedData);
 
-        $city = City::findOrFail($this->cityId);
-        $city->update($validatedData);
-
-        $this->dispatch('city-updated');
-        $this->open = false;
-        $this->resetForm();
-
-        session()->flash('message', 'Şehir başarıyla güncellendi.');
-    } catch (\Exception $e) {
-        session()->flash('error', 'Güncelleme sırasında bir hata oluştu: ' . $e->getMessage());
+            $this->dispatch('city-updated');
+            $this->open = false;
+            $this->resetForm();
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'success',
+                'title' => 'Başarılı!',
+                'text' => 'Şehir başarıyla güncellendi.'
+            ]);
+        } catch (\Exception $e) {
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'error',
+                'title' => 'Hata!',
+                'text' => 'Şehir güncelenirken bir hata oluştu: ' . $e->getMessage()
+            ]);
+        }
     }
-
-
-
-    }
-
 
     public function render()
     {

@@ -7,8 +7,7 @@ use Livewire\Component;
 class BaseCreate extends Component
 {
     public $open = false;
-    public $code;
-    public $description;
+
 
 
 

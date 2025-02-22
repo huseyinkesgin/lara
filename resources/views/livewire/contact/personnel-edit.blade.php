@@ -36,9 +36,9 @@
                         <x-input-text wire:model.live="image" label="Görsel" error="image" />
                         <!-- Durum -->
                         <x-select wire:model.live="status" label="Durum" error="status">
-                            <option value="Çalışıyor">Çalışıyor</option>
-                            <option value="İşten Ayrıldı">İşten Ayrıldı</option>
-                            <option value="Askeri Görevde">Askeri Görevde</option>
+                        @foreach(App\Enums\PersonnelStatus::options() as $value => $label)
+        <option value="{{ $value }}">{{ $label }}</option>
+    @endforeach
                         </x-select>
                         <!-- Başlangıç Tarihi -->
                         <x-input-date wire:model.live="start_date" label="Başlangıç Tarihi" error="start_date" />
@@ -64,9 +64,9 @@
                             </x-select>
 
                         <!-- Mahalle -->
-                            <x-select wire:model.live="neighbourhood_id" label="Mahalle" error="neighbourhood_id" >
-                                @foreach ($neighbourhoods as $neighbourhood)
-                                <option value="{{ $neighbourhood->id }}">{{ $neighbourhood->name }}</option>
+                            <x-select wire:model.live="neighborhood_id" label="Mahalle" error="neighborhood_id" >
+                                @foreach ($neighborhoods as $neighborhood)
+                                <option value="{{ $neighborhood->id }}">{{ $neighborhood->name }}</option>
                                 @endforeach
                             </x-select>
 

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Location;
 
-use App\Models\City;
+use App\Models\Beos\City;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -20,10 +20,28 @@ class CityDelete extends Component
 
     public function delete()
     {
-        if ($this->cityId) {
-            City::destroy($this->cityId);
-            $this->dispatch('city-deleted');
-            $this->open = false;
+        try {
+            if ($this->cityId) {
+                City::destroy($this->cityId);
+                $this->dispatch('city-deleted');
+                $this->open = false;
+                
+                // Başarı bildirimi
+                $this->dispatch('swal', [
+                    'toast' => true,
+                    'icon' => 'success',
+                    'title' => 'Başarılı!',
+                    'text' => 'Şehir başarıyla silindi.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Hata bildirimi
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'error',
+                'title' => 'Hata!',
+                'text' => 'Şehir silinirken bir hata oluştu: ' . $e->getMessage()
+            ]);
         }
     }
 

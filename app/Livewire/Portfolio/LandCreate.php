@@ -12,7 +12,7 @@ use App\Models\Customer;
 class LandCreate extends BaseCreateLocation
 {
 
-    public $code;
+  
     public $enter_date;
     public $customer_id;
     public $area;
@@ -28,8 +28,7 @@ class LandCreate extends BaseCreateLocation
      public function rules()
     {
      return array_merge(parent::baseRules(), [
-        'code' => ['unique:lands'],
-        'enter_date' => ["required","string"],
+        'enter_date' => ["nullable","string"],
         'customer_id' => ['required', 'integer'],
         'area' => ['required' ],
         'land' => ['required'],
@@ -38,6 +37,8 @@ class LandCreate extends BaseCreateLocation
         'similar' => ['nullable', 'string', 'max:255'],
         'size' => ['nullable'],
         'personnel_id' => ['required', 'integer'],
+        'description' => ['nullable', 'string', 'max:255'],
+        
 
     ]);
     }
@@ -45,7 +46,6 @@ class LandCreate extends BaseCreateLocation
     public function messages()
     {
          return array_merge(parent::baseMessages(), [
-            'code.required' => 'Kod alanı zorunludur.',
             'enter_date.required' => 'Tarih alanı zorunludur.',
             'customer_id.required' => 'Müşteri alanı zorunludur.',
             'area.required' => 'Alan alanı zorunludur.',
@@ -79,7 +79,7 @@ class LandCreate extends BaseCreateLocation
     public function resetForm()
     {
 
-        $this->reset('code', 'customer_id','area' ,'city_id','district_id','neighbourhood_id','land','parcel','zooning_status','similar','size','personnel_id','description');
+        $this->reset('code', 'customer_id','area' ,'city_id','district_id','neighborhood_id','land','parcel','zooning_status','similar','size','personnel_id','description');
     }
 
     public function save()
@@ -93,7 +93,7 @@ class LandCreate extends BaseCreateLocation
             'customer_id' => $this->customer_id,
             'city_id' => $this->city_id,
             'district_id' => $this->district_id,
-            'neighbourhood_id' => $this->neighbourhood_id,
+            'neighborhood_id' => $this->neighborhood_id,
             'area' => $this->area,
             'land' => $this->land,
             'parcel' => $this->parcel,

@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Contact;
 
-use App\Models\Company;
+use App\Models\Beos\Company;
 use App\Livewire\BaseEditLocation;
 use Livewire\Attributes\On;
 
 class CompanyEdit extends BaseEditLocation
 {
-
+    public $code;
     public $name;
     public $tax_name;
     public $tax_office;
@@ -19,13 +19,26 @@ class CompanyEdit extends BaseEditLocation
     public $kep_address;
     public $website;
     public $address;
+    public $description;
+    public $status;
     public $companyId;
+    public $city_id;
+    public $town_id;
+    public $district_id;
+    public $neighborhood_id;
+
+    public $cities;
+    public $towns = [];
+    public $districts = [];
+    public $neighborhoods = [];
+
+
 
 
      public function rules()
     {
     return [
-        'code' => "unique:companies,code,{$this->companyId}",
+        'code' => "required|string|min:4|max:30|unique:companies,code,{$this->companyId}",
         'name' => "required|string|min:3|max:30|unique:companies,name,{$this->companyId}",
         'tax_name' => "nullable|string|min:3|max:200",
         'tax_office' => "nullable|string|min:3|max:60",
@@ -36,6 +49,12 @@ class CompanyEdit extends BaseEditLocation
         'kep_address' => "nullable|string|min:3|max:30|unique:companies,kep_address,{$this->companyId}",
         'website' => "nullable|string|min:3|max:30|unique:companies,website,{$this->companyId}",
         'address' => "nullable|string|min:15|max:255",
+        'description' => "nullable|string|min:15|max:255",
+        'status' => "required|string",
+        'city_id' => "required",
+        'town_id' => "required",
+        'district_id' => "required",
+        'neighborhood_id' => "required",
 
     ];
     }
@@ -44,6 +63,9 @@ class CompanyEdit extends BaseEditLocation
     {
         return [
             'code.unique' => 'Kod alanı benzersiz olmalıdır.',
+            'code.required' => 'Kod alanı zorunludur.',
+            'code.min' => 'Kod alanı en az 4 karakter olmalıdır.',
+            'code.max' => 'Kod alanı en fazla 30 karakter olmalıdır.',
             'name.required' => 'Ad alanı zorunludur.',
             'name.min' => 'Ad alanı en az 3 karakter olmalıdır.',
             'name.max' => 'Ad alanı en fazla 30 karakter olmalıdır.',
@@ -71,6 +93,12 @@ class CompanyEdit extends BaseEditLocation
             'website.max' => 'Website alanı en fazla 30 karakter olmalıdır.',
             'website.unique' => 'Website alanı benzersiz olmalıdır.',
             'address.max' => 'Adres alanı en fazla 255 karakter olmalıdır.',
+            'description.max' => 'Açıklama alanı en fazla 255 karakter olmalıdır.',
+            'status.required' => 'Durum alanı zorunludur.',
+            'city_id.required' => 'Seçilen seçim zorunludur.',
+            'town_id.required' => 'Seçilen seçim zorunludur.',
+            'district_id.required' => 'Seçilen seçim zorunludur.',
+            'neighborhood_id.required' => 'Seçilen seçim zorunludur.',
           ];
     }
 
@@ -97,36 +125,43 @@ class CompanyEdit extends BaseEditLocation
         $this->mersis_number = $company->mersis_number;
         $this->kep_address = $company->kep_address;
         $this->website = $company->website;
+        $this->status = $company->status;
         $this->city_id = $company->city_id;
         $this->district_id = $company->district_id;
-        $this->neighbourhood_id = $company->neighbourhood_id;
+        $this->neighborhood_id = $company->neighborhood_id;
         $this->address = $company->address;
         $this->description = $company->description;
     }
 
     public function resetForm()
 {
-    $this->reset(['code', 'name', 'tax_name', 'tax_office', 'tax_number', 'phone', 'email', 'mersis_number', 'kep_address', 'website', 'city_id', 'district_id', 'neighbourhood_id', 'address', 'description']);
+    $this->reset(['code', 'name', 'tax_name', 'tax_office', 'tax_number', 'phone', 'email', 'mersis_number', 'kep_address', 'website', 'status', 'city_id', 'district_id', 'neighborhood_id', 'address', 'description']);
 
 }
 
 
     public function save()
     {
-        $validatedData = $this->validate();
-           try {
+        try {
+            $company = Company::findOrFail($this->companyId);
+            $company->update($validatedData);
 
-
-        $company = Company::findOrFail($this->companyId);
-        $company->update($validatedData);
-
-        $this->dispatch('company-updated');
-        $this->open = false;
-        $this->resetForm();
-
-            session()->flash('message', 'Firma başarıyla güncellendi.');
+            $this->dispatch('company-updated');
+            $this->open = false;
+            $this->resetForm();
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'success',
+                'title' => 'Başarılı!',
+                'text' => 'Firma başarıyla güncellendi.'
+            ]);
         } catch (\Exception $e) {
-            session()->flash('error', 'Güncelleme sırasında bir hata oluştu: ' . $e->getMessage());
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'error',
+                'title' => 'Hata!',
+                'text' => 'Firma güncelenirken bir hata oluştu: ' . $e->getMessage()
+            ]);
         }
     }
 

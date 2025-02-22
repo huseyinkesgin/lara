@@ -87,13 +87,13 @@ class PersonnelEdit extends BaseEditLocation
         $this->end_date = $personnel->end_date;
         $this->city_id = $personnel->city_id;
         $this->district_id = $personnel->district_id;
-        $this->neighbourhood_id = $personnel->neighbourhood_id;
+        $this->neighborhood_id = $personnel->neighborhood_id;
         $this->description = $personnel->description;
     }
 
     public function resetForm()
 {
-    $this->reset(['code', 'name', 'tc_no', 'phone', 'email', 'address', 'image', 'status', 'start_date', 'end_date', 'city_id', 'district_id', 'neighbourhood_id', 'description']);
+    $this->reset(['code', 'name', 'tc_no', 'phone', 'email', 'address', 'image', 'status', 'start_date', 'end_date', 'city_id', 'district_id', 'neighborhood_id', 'description']);
 
 }
 
@@ -113,7 +113,7 @@ class PersonnelEdit extends BaseEditLocation
             'email' => $this->email,
             'city_id' => $this->city_id,
             'district_id' => $this->district_id,
-            'neighbourhood_id' => $this->neighbourhood_id,
+            'neighborhood_id' => $this->neighborhood_id,
             'address' => $this->address,
             'image' => $this->image,
             'status' => $this->status,

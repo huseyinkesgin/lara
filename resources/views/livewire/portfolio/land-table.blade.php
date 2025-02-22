@@ -52,7 +52,7 @@
                         <x-td>{{ $item->parcel }}</x-td>
                         <x-td>{{ $item->city->name }}</x-td>
                         <x-td>{{ $item->district->name }}</x-td>
-                        <x-td>{{ $item->neighbourhood->name }}</x-td>
+                        <x-td>{{ $item->neighborhood->name }}</x-td>
                         <x-td>{{ $item->zooning_status }}</x-td>
                         <x-td>{{ $item->date }}</x-td>
                      </tr>

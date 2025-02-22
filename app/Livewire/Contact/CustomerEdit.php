@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Contact;
 
-use App\Models\Customer;
+use App\Models\Beos\Customer;
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Models\City;
-use App\Models\District;
-use App\Models\Neighbourhood;
-use App\Models\Company;
+use App\Models\Beos\City;
+use App\Models\Beos\District;
+use App\Models\Beos\Neighborhood;
+use App\Models\Beos\Company;
 class CustomerEdit extends Component
 {
     public $code;
@@ -22,13 +22,13 @@ class CustomerEdit extends Component
     public $customerId;
     public $city_id;
     public $district_id;
-    public $neighbourhood_id;
+    public $neighborhood_id;
     public $address;
     public $description;
 
     public $cities;
     public $districts;
-    public $neighbourhoods;
+    public $neighborhoods;
 
     public $companies;
     public $open = false;
@@ -46,7 +46,7 @@ class CustomerEdit extends Component
         'customer_group' => "nullable|string|min:3|max:60",
         'city_id' => "nullable",
         'district_id' => "nullable",
-        'neighbourhood_id' => "nullable",
+        'neighborhood_id' => "nullable",
         'address' => "nullable|string|min:15|max:255",
         'description' => "nullable|string|max:255",
     ];
@@ -79,7 +79,7 @@ class CustomerEdit extends Component
         $this->cities = City::active()->get();
         $this->companies = Company::all();
         $this->districts = District::active()->get();
-        $this->neighbourhoods = Neighbourhood::active()->get();
+        $this->neighborhoods = Neighborhood::active()->get();
     }
 
     public function updatedCityId($value)
@@ -87,14 +87,14 @@ class CustomerEdit extends Component
         $this->city_id = $value;
         $this->districts = District::where('city_id', $value)->get();
         $this->district_id = null;
-        $this->neighbourhood_id = null;
+        $this->neighborhood_id = null;
     }
 
     public function updatedDistrictId($value)
     {
         $this->district_id = $value;
-        $this->neighbourhoods = Neighbourhood::where('district_id', $value)->get();
-        $this->neighbourhood_id = null;
+        $this->neighborhoods = Neighborhood::where('district_id', $value)->get();
+        $this->neighborhood_id = null;
     }
 
     public function updated($propertyName)
@@ -124,14 +124,14 @@ class CustomerEdit extends Component
         $this->email = $customer->email;
         $this->city_id = $customer->city_id;
         $this->district_id = $customer->district_id;
-        $this->neighbourhood_id = $customer->neighbourhood_id;
+        $this->neighborhood_id = $customer->neighborhood_id;
         $this->address = $customer->address;
         $this->description = $customer->description;
     }
 
     public function resetForm()
 {
-    $this->reset(['code', 'name', 'tc_no', 'customer_type', 'company_id', 'customer_group', 'phone', 'email', 'city_id', 'district_id', 'neighbourhood_id', 'address', 'description']);
+    $this->reset(['code', 'name', 'tc_no', 'customer_type', 'company_id', 'customer_group', 'phone', 'email', 'city_id', 'district_id', 'neighborhood_id', 'address', 'description']);
 
 }
 

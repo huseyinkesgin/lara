@@ -36,7 +36,7 @@
                         <x-input-text wire:model.live="image" label="Görsel" error="image" />
                         <!-- Durum -->
                         <x-select wire:model.live="status" label="Durum" error="status">
-                            @foreach($statusOptions as $value => $label)
+                           @foreach(App\Enums\PersonnelStatus::options() as $value => $label)
         <option value="{{ $value }}">{{ $label }}</option>
     @endforeach
                         </x-select>
@@ -64,9 +64,9 @@
                             </x-select>
 
                         <!-- Mahalle -->
-                            <x-select wire:model.live="neighbourhood_id" label="Mahalle" error="neighbourhood_id" >
-                                @foreach ($neighbourhoods as $neighbourhood)
-                                <option value="{{ $neighbourhood->id }}">{{ $neighbourhood->name }}</option>
+                            <x-select wire:model.live="neighborhood_id" label="Mahalle" error="neighborhood_id" >
+                                @foreach ($neighborhoods as $neighborhood)
+                                <option value="{{ $neighborhood->id }}">{{ $neighborhood->name }}</option>
                                 @endforeach
                             </x-select>
 

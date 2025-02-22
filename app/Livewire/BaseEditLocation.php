@@ -2,74 +2,48 @@
 
 namespace App\Livewire;
 
-use App\Models\City;
-use App\Models\District;
-use App\Models\Neighbourhood;
+use App\Models\Beos\City;
+use App\Models\Beos\District;
+use App\Models\Beos\Neighborhood;
+use App\Models\Beos\Town;
 use Livewire\Component;
 
 class BaseEditLocation extends Component
 {
     public $open = false;
 
-    public $code;
-    public $description;
-    public $city_id;
-    public $district_id;
-    public $neighbourhood_id;
-    public $cities;
-    public $districts;
-    public $neighbourhoods;
-
-    protected function baseRules()
-    {
-        return [
-            'city_id' => 'nullable',
-            'district_id' => 'nullable',
-            'neighbourhood_id' => 'nullable',
-            'code' => ['required', 'string', 'min:4', 'max:30', ],
-            'description' => ['nullable', 'string', 'max:255'],
-        ];
-    }
-
-    protected function baseMessages()
-    {
-        return [
-            'code.required' => 'Kod alanı zorunludur.',
-            'code.min' => 'Kod alanı en az 4 karakter olmalıdır.',
-            'code.max' => 'Kod alanı en fazla 30 karakter olmalıdır.',
-            'description.max' => 'Açıklama alanı en fazla 255 karakter olmalıdır.',
-        ];
-    }
-
-    public function rules()
-    {
-        return $this->baseRules();
-    }
-
-    public function messages()
-    {
-        return $this->baseMessages();
-    }
 
     public function mount()
     {
         $this->cities = City::active()->get();
-        $this->districts = District::active()->get();
-        $this->neighbourhoods = Neighbourhood::active()->get();
 
     }
     public function updatedCityId($value)
     {
         $this->city_id = $value;
-        $this->districts = District::where('city_id', $value)->get();
+
+        $this->towns = Town::where('city_id', $value)->get();
+        $this->town_id = null;
+        $this->districts = [];
         $this->district_id = null;
+        $this->neighborhoods = [];
+        $this->neighborhood_id = null;
+    }
+
+    public function updatedTownId($value)
+    {
+        $this->town_id = $value;
+        $this->districts = District::where('town_id', $value)->get();
+        $this->district_id = null;
+        $this->neighborhoods = [];
+        $this->neighborhood_id = null;
     }
 
     public function updatedDistrictId($value)
     {
         $this->district_id = $value;
-        $this->neighbourhoods = Neighbourhood::where('district_id', $value)->get();
-        $this->neighbourhood_id = null;
+        $this->neighborhoods = Neighborhood::where('district_id', $value)->get();
+        $this->neighborhood_id = null;
     }
 
     public function updated($propertyName)

@@ -3,8 +3,8 @@
 namespace App\Livewire\Contact;
 
 use Carbon\Carbon;
-use App\Models\Company;
-use App\Models\Personnel;
+use App\Models\Beos\Company;
+use App\Models\Beos\Personnel;
 use Livewire\Attributes\On;
 use App\Livewire\BaseCreateLocation;
 use Illuminate\Contracts\Validation\Rule;
@@ -32,7 +32,7 @@ class PersonnelCreate extends BaseCreateLocation
             'email' => ['nullable', 'string', 'min:10', 'max:75', 'unique:personnels'],
             'address' => ['nullable', 'string', 'max:255'],
              'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
-             'status' => ['required', 'string', Rule::in(array_keys(PersonnelStatus::options()))],
+             'status' => ['required', 'string'],
              'start_date' => ['nullable'],
             'end_date' => ['nullable'],
 
@@ -61,7 +61,7 @@ class PersonnelCreate extends BaseCreateLocation
             'end_date.date' => 'Bitiş tarihi alanı tarih formatında olmalıdır.',
             'city_id.required' => 'Şehir alanı zorunludur.',
             'district_id.required' => 'İlçe alanı zorunludur.',
-            'neighbourhood_id.required' => 'Mahalle alanı zorunludur.',
+            'neighborhood_id.required' => 'Mahalle alanı zorunludur.',
             'description.max' => 'Açıklama alanı en fazla 255 karakter olmalıdır.',
 
         ]);
@@ -94,7 +94,7 @@ class PersonnelCreate extends BaseCreateLocation
             'email' => $this->email,
             'city_id' => $this->city_id,
             'district_id' => $this->district_id,
-            'neighbourhood_id' => $this->neighbourhood_id,
+            'neighborhood_id' => $this->neighborhood_id,
             'address' => $this->address,
             'image' => $this->image,
             'status' => $this->status,
@@ -111,8 +111,6 @@ class PersonnelCreate extends BaseCreateLocation
 
     public function render()
     {
-        return view('livewire.contact.personnel-create',[
-            'statusOptions' => Personnel::statusOptions(),
-        ]);
+        return view('livewire.contact.personnel-create');
     }
 }

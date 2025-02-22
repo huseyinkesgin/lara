@@ -2,19 +2,19 @@
 
 namespace App\Livewire\Location;
 
-use App\Models\City;
+use notify;
 use App\Enums\IsActive;
-use Livewire\Component;
+use App\Models\Beos\City;
 use Livewire\Attributes\On;
+use App\Livewire\BaseCreate;
 
-class CityCreate extends Component
+class CityCreate extends BaseCreate
 {
 
-    public $open = false;
 
     public $code;
     public $name;
-    public $is_active = 1;
+    public $is_active = "1";
     public $description;
 
     public function rules()
@@ -22,8 +22,8 @@ class CityCreate extends Component
     return [
         'code' => ['required', 'string', 'min:4', 'max:30', 'unique:cities'],
         'name' => ['required', 'string', 'min:3', 'max:30', 'unique:cities'],
-        'is_active' => ['boolean'],
-        'description' => ['nullable', 'string', 'max:255'],
+        'is_active' => ['required'],
+        'description' => ['nullable', 'string', 'min:10','max:255'],
     ];
     }
 
@@ -38,14 +38,10 @@ class CityCreate extends Component
             'name.min' => 'Ad alanı en az 3 karakter olmalıdır.',
             'name.max' => 'Ad alanı en fazla 30 karakter olmalıdır.',
             'name.unique' => 'Ad alanı benzersiz olmalıdır.',
-            'is_active.boolean' => 'Aktif alanı doğru formatta değil.',
+            'is_active.required' => 'Aktif alanı zorunludur.',
+            'description.min' => 'Açıklama alanı en az 10 karakter olmalıdır.',
             'description.max' => 'Açıklama alanı en fazla 255 karakter olmalıdır.',
         ];
-    }
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
     }
 
     #[On('openCreateModal')]
@@ -63,16 +59,29 @@ class CityCreate extends Component
 
     public function save()
     {
-       $validatedData = $this->validate();
-
         try {
-        \App\Models\City::create($validatedData);
-        $this->open = false;
-        $this->resetForm();
-        $this->dispatch('city-created'); // Fixed typo: dispacth -> dispatch
-    } catch (\Exception $e) {
-        session()->flash('error', 'Şehir kaydedilirken bir hata oluştu.');
-    }
+            $validatedData = $this->validate();
+            City::create($validatedData);
+            $this->open = false;
+            $this->resetForm();
+            $this->dispatch('city-created');
+            
+            // Başarı bildirimi
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'success',
+                'title' => 'Başarılı!',
+                'text' => 'Şehir başarıyla kaydedildi.'
+            ]);
+        } catch (\Exception $e) {
+            // Hata bildirimi
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'error',
+                'title' => 'Hata!',
+                'text' => 'Şehir kaydedilirken bir hata oluştu: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function render()

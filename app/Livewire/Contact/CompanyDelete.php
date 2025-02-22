@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Contact;
 
-use App\Models\Company;
+use App\Models\Beos\Company;
 use Livewire\Component;
 use Livewire\Attributes\On;
 
@@ -20,10 +20,28 @@ class CompanyDelete extends Component
 
     public function delete()
     {
-        if ($this->companyId) {
-            Company::destroy($this->companyId);
-            $this->dispatch('company-deleted');
-            $this->open = false;
+        try {
+            if ($this->companyId) {
+                Company::destroy($this->companyId);
+                $this->dispatch('company-deleted');
+                $this->open = false;
+                
+                // Başarı bildirimi
+                $this->dispatch('swal', [
+                    'toast' => true,
+                    'icon' => 'success',
+                    'title' => 'Başarılı!',
+                    'text' => 'Şirket başarıyla silindi.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            // Hata bildirimi
+            $this->dispatch('swal', [
+                'toast' => true,
+                'icon' => 'error',
+                'title' => 'Hata!',
+                'text' => 'Şirket silinirken bir hata oluştu: ' . $e->getMessage()
+            ]);
         }
     }
 

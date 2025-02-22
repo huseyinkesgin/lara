@@ -2,16 +2,16 @@
 
 namespace App\Enums;
 
-enum IsActive: string
+enum IsActive: int
 {
-    case ACTIVE = true;
-    case PASSIVE = false;
+    case ACTIVE = 1;
+    case PASSIVE = 0;
 
     public function label(): string
     {
         return match ($this) {
-            self::ACTIVE => 'Aktif',
-            self::PASSIVE => 'Pasif',
+            self::ACTIVE => 'AKTİF',
+            self::PASSIVE => 'PASİF',
         };
     }
 

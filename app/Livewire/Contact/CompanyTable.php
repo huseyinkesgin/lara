@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Contact;
 
-use App\Models\Company;
+use App\Models\Beos\Company;
 use Livewire\Attributes\On;
 use App\Livewire\BaseTable;
 

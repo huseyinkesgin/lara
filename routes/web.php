@@ -8,7 +8,9 @@ use App\Livewire\Contact\CompanyIndex;
 use App\Livewire\Contact\CustomerIndex;
 use App\Livewire\Contact\PersonnelIndex;
 use App\Livewire\Location\DistrictIndex;
-use App\Livewire\Location\NeighbourhoodIndex;
+use App\Livewire\Location\NeighborhoodIndex;
+use App\Livewire\Location\TownIndex;
+
 
 
 Route::get('/', function () {
@@ -26,8 +28,11 @@ Route::middleware([
 });
 
 Route::get('cities',CityIndex::class)->name('cities');
+Route::get('towns',TownIndex::class)->name('towns');
 Route::get('districts',DistrictIndex::class)->name('districts');
-Route::get('neighbourhoods',NeighbourhoodIndex::class)->name('neighbourhoods');
+Route::get('neighborhoods',NeighborhoodIndex::class)->name('neighborhoods');
+
+
 Route::get('companies',CompanyIndex::class)->name('companies');
 Route::get('customers',CustomerIndex::class)->name('customers');
 Route::get('personnels',PersonnelIndex::class)->name('personnels');

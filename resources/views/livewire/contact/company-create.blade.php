@@ -47,31 +47,53 @@
 
                         <!-- Kep Adresi -->
                         <x-input-text wire:model.live="kep_address" label="Kep Adresi" error="kep_address" />
+                        <!-- Durumu -->
+                        <x-select wire:model.live="status" label="Durumu" error="status">
+                            <option value="AKTİF">AKTİF</option>
+                            <option value="KAPANDI">KAPANDI</option>
+                            <option value="TAŞINDI">TAŞINDI</option>
+                        </x-select>
                     </x-fieldset>
 
 
 
                     <!-- Sağ Alt: Adres Bilgileri -->
                     <x-fieldset legend="Adres Bilgileri">
-                            <!-- Şehir -->
-                            <x-select wire:model.live="city_id" options="$cities" label="Şehir" error="city_id" >
-                                @foreach ($cities as $city)
+                        <x-select wire:model.live="city_id" label="İl" error="city_id">
+                            <option value="">İl Seçiniz</option>
+                            @foreach ($cities as $city)
                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                @endforeach
+                            @endforeach
                         </x-select>
-                        <!-- İlçe -->
-                            <x-select wire:model.live="district_id" label="İlçe" error="district_id">
-                                @foreach ($districts as $district)
-                                <option value="{{ $district->id }}">{{ $district->name }}</option>
+        
+                        <!-- İlçe Seçimi -->
+                        @if($city_id)
+                            <x-select wire:model.live="town_id" label="İlçe" error="town_id">
+                                <option value="">İlçe Seçiniz</option>
+                                @foreach ($towns as $town)
+                                    <option value="{{ $town->id }}">{{ $town->name }}</option>
                                 @endforeach
                             </x-select>
+                        @endif
+        
+                        <!-- Semt Seçimi -->
+                        @if($town_id)
+                            <x-select wire:model.live="district_id" label="Semt" error="district_id">
+                                <option value="">Semt Seçiniz</option>
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                @endforeach
+                            </x-select>
+                        @endif
 
                         <!-- Mahalle -->
-                            <x-select wire:model.live="neighbourhood_id" label="Mahalle" error="neighbourhood_id" >
-                                @foreach ($neighbourhoods as $neighbourhood)
-                                <option value="{{ $neighbourhood->id }}">{{ $neighbourhood->name }}</option>
+                        @if($district_id)
+                            <x-select wire:model.live="neighborhood_id" label="Mahalle" error="neighborhood_id" >
+                                @foreach ($neighborhoods as $neighborhood)
+                                <option value="{{ $neighborhood->id }}">{{ $neighborhood->name }}</option>
                                 @endforeach
                             </x-select>
+                        @endif
 
                         <!-- Adres -->
                         <x-textarea wire:model.live="address" label="Adres" error="address" />

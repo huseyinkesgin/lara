@@ -88,7 +88,7 @@ class LandEdit extends BaseEditLocation
         $this->date = $land->date;
         $this->city_id = $land->city_id;
         $this->district_id = $land->district_id;
-        $this->neighbourhood_id = $land->neighbourhood_id;
+        $this->neighborhood_id = $land->neighborhood_id;
         $this->area = $land->area;
         $this->land = $land->land;
         $this->parcel = $land->parcel;
@@ -102,7 +102,7 @@ class LandEdit extends BaseEditLocation
      public function resetForm()
     {
 
-        $this->reset('code', 'customer_id','area' ,'city_id','district_id','neighbourhood_id','land','parcel','zooning_status','similar','size','personel_id','description');
+        $this->reset('code', 'customer_id','area' ,'city_id','district_id','neighborhood_id','land','parcel','zooning_status','similar','size','personel_id','description');
     }
 
     public function save()
@@ -116,7 +116,7 @@ class LandEdit extends BaseEditLocation
                 'date' => $this->date,
                 'city_id' => $this->city_id,
                 'district_id' => $this->district_id,
-                'neighbourhood_id' => $this->neighbourhood_id,
+                'neighborhood_id' => $this->neighborhood_id,
                 'area' => $this->area,
                 'land' => $this->land,
                 'parcel' => $this->parcel,
